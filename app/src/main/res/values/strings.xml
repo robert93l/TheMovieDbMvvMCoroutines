@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SalinasInterview</string>
+    <string name="title_movies">Movies</string>
+    <string name="title_location">Location</string>
+    <string name="title_storage">Storage</string>
+    <string name="title_overview">Overview</string>
+    <string name="overview">overview</string>
+    <string name="release">Release</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="succes_permission">Permisos aceptados</string>
+    <string name="failed_permission">Permisos denegados</string>
+    <string name="title_attention">Atención</string>
+    <string name="permission_message">Se necesitan los permisos de ubicación para el funcionamiento de la app</string>
+    <string name="ok">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="notification_message">La aplicación accede a tu ubicación cada 5 min</string>
+    <string name="storage_message">Da click en el botón flotante para añadir una o más imagenes y subirlas a Firebase</string>
+</resources>
