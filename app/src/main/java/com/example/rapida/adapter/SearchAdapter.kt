@@ -1,7 +1,5 @@
 package com.example.rapida.adapter
 
-
-
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +7,14 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rapida.helper.Constants
-import com.example.rapida.models.Movie
 import com.bumptech.glide.Glide
 import com.example.rapida.MovieDetailActivity
 import com.example.rapida.R
 import com.example.rapida.databinding.TvShowLayoutAdapterBinding
+import com.example.rapida.helper.Constants
+import com.example.rapida.models.Movie
 
-
-class   PopularAdapter(): PagingDataAdapter<Movie, PopularAdapter.ViewHolder>(DiffUtilCallBack()) {
+class SearchAdapter: PagingDataAdapter<Movie, SearchAdapter.ViewHolder>(DiffUtilCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater
@@ -59,21 +56,5 @@ class   PopularAdapter(): PagingDataAdapter<Movie, PopularAdapter.ViewHolder>(Di
             return oldItem.title == newItem.title
                     && oldItem.id == newItem.id
         }
-
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

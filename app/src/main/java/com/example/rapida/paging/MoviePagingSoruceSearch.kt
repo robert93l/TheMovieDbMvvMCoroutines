@@ -10,7 +10,7 @@ import java.io.IOException
 
 private const val MOVIES_STARTING_PAGE_INDEX = 1
 
-class MoviePagingSourceSearch(private val query: String): PagingSource<Int, Movie>() {
+class MoviePagingSourceSearch(private val query:String): PagingSource<Int, Movie>() {
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
@@ -30,7 +30,7 @@ class MoviePagingSourceSearch(private val query: String): PagingSource<Int, Movi
             val responseList = mutableListOf<Movie>()
 
             if(response.isSuccessful){
-                val data = response.body()?.result ?: emptyList()
+                val data = response.body()?.movies ?: emptyList()
                 responseList.addAll(data)
             }
 

@@ -16,4 +16,5 @@
     <string name="cancel">Cancelar</string>
     <string name="notification_message">La aplicación accede a tu ubicación cada 5 min</string>
     <string name="storage_message">Da click en el botón flotante para añadir una o más imagenes y subirlas a Firebase</string>
+    <string name="search_movies">Search Character</string>
 </resources>

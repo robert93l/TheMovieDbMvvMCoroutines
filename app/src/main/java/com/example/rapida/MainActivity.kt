@@ -1,19 +1,21 @@
 package com.example.rapida
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rapida.adapter.NowPlayingAdapter
-import com.example.rapida.adapter.PopularAdapter
-import com.example.rapida.adapter.TopRatedAdapter
-import com.example.rapida.adapter.UpcomingAdapter
+import com.example.rapida.adapter.*
 import com.example.rapida.databinding.ActivityMainBinding
 import com.example.rapida.viewmodel.TvShowViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 
@@ -27,19 +29,58 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nowPlayingAdapter: NowPlayingAdapter
     private lateinit var upcomingAdapter: UpcomingAdapter
 
+    private lateinit var searchAdapter: SearchAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.hide()
 
         setUpRv()
         loadDataPopular()
         loadDataNowPlaying()
+
         loadDatatopRated()
         loadDataUpcoming()
+
+        loadSearch()
     }
+
+
+    private fun loadSearch() {
+        lifecycleScope.launch{
+           viewModel.searchResults.collect{
+                searchAdapter.submitData(it)
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_search_character, menu)
+        val item = menu.findItem(R.id.searchCharacterMenu)
+        val searchView = item?.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null) {
+                    viewModel.searchMovies(query)
+                     loadSearch()
+                }
+              return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    viewModel.searchMovies(newText)
+                }
+                return true
+            }
+
+        })
+        return true
+    }
+
+
 
     private fun loadDataPopular() {
 
@@ -93,9 +134,11 @@ class MainActivity : AppCompatActivity() {
         nowPlayingAdapter = NowPlayingAdapter()
         upcomingAdapter = UpcomingAdapter()
 
+        searchAdapter = SearchAdapter()
+
 
         binding.recyclerView.apply {
-            adapter = popularAdapter
+            adapter = searchAdapter
             layoutManager = LinearLayoutManager(
                 this@MainActivity, LinearLayoutManager.HORIZONTAL,
                 false

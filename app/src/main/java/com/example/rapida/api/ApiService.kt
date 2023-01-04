@@ -34,13 +34,12 @@ interface ApiService {
         @Query("page") page: Int
     ): Response<GetMoviesResponse>
 
-
     //Busqueda atendiendo
     @GET("search/movie")
     suspend fun searchMovies(
         @Query("api_key") apiKey: String = Constants.API_KEY,
         @Query("page") page: Int,
         @Query("query") query: String
-    ): Response<SearhResults>
+    ): Response<GetMoviesResponse>
 
 }
