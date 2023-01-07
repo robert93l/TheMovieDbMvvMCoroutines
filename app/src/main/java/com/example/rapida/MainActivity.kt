@@ -10,7 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rapida.adapter.*
 import com.example.rapida.databinding.ActivityMainBinding
 import com.example.rapida.viewmodel.TvShowViewModel
@@ -80,8 +82,6 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-
-
     private fun loadDataPopular() {
 
         lifecycleScope.launch {
@@ -139,10 +139,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.recyclerView.apply {
             adapter = searchAdapter
-            layoutManager = LinearLayoutManager(
-                this@MainActivity, LinearLayoutManager.HORIZONTAL,
-                false
-            )
+            layoutManager =  StaggeredGridLayoutManager(3, GridLayoutManager.VERTICAL)
 
             setHasFixedSize(true)
         }

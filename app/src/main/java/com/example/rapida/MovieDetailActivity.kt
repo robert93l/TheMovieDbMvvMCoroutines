@@ -2,6 +2,7 @@ package com.example.rapida
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import com.bumptech.glide.Glide
 import com.example.rapida.databinding.ActivityMovieDetailBinding
 import com.example.rapida.helper.Constants
@@ -27,5 +28,16 @@ class MovieDetailActivity : AppCompatActivity() {
         binding.OverviewTv.text = movie.overview
         binding.RelaseDateTv.text = movie.releaseDate
 
+    }
+
+    //to control backrow restart activity
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
