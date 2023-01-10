@@ -1,15 +1,14 @@
 package com.example.rapida
 
-import android.content.Intent
+
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -17,7 +16,6 @@ import com.example.rapida.adapter.*
 import com.example.rapida.databinding.ActivityMainBinding
 import com.example.rapida.viewmodel.TvShowViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 
@@ -42,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         setUpRv()
         loadDataPopular()
         loadDataNowPlaying()
-
         loadDatatopRated()
         loadDataUpcoming()
 
@@ -54,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch{
            viewModel.searchResults.collect{
                 searchAdapter.submitData(it)
+                binding.searchResults.visibility = View.VISIBLE
             }
         }
     }
@@ -67,6 +65,7 @@ class MainActivity : AppCompatActivity() {
                 if (query != null) {
                     viewModel.searchMovies(query)
                      loadSearch()
+
                 }
               return true
             }

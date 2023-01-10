@@ -2,7 +2,6 @@ package com.example.rapida.api
 
 import com.example.rapida.helper.Constants
 import com.example.rapida.models.GetMoviesResponse
-import com.example.rapida.models.SearhResults
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

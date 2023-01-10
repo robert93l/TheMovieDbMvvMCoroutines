@@ -13,8 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
@@ -26,9 +24,11 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/search_results"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tv Shows"
+                android:text="search results"
+                android:visibility="gone"
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 android:textStyle="bold" />

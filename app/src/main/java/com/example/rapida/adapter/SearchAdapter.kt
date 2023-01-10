@@ -42,7 +42,7 @@ class SearchAdapter: PagingDataAdapter<Movie, SearchAdapter.ViewHolder>(DiffUtil
         private val binding = TvShowLayoutAdapterBinding.bind(view)
 
         fun bind(movie: Movie) {
-            binding.textView.text = movie.title
+            //binding.textView.text = movie.title
             Glide.with(itemView.context).load(Constants.urlBaseImage + movie.posterPath).centerCrop().into(binding.imageView)
         }
     }

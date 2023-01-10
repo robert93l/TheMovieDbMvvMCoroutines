@@ -37,7 +37,6 @@ class NowPlayingAdapter : PagingDataAdapter<Movie, NowPlayingAdapter.ViewHolder>
             intentDetail.putExtra("movie", item)
             holder.itemView.context.startActivity(intentDetail)
         }
-
     }
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
@@ -46,7 +45,7 @@ class NowPlayingAdapter : PagingDataAdapter<Movie, NowPlayingAdapter.ViewHolder>
 
 
         fun bind(movie: Movie) {
-            binding.textView.text = movie.title
+            //binding.textView.text = movie.title
             Glide.with(itemView.context).load(Constants.urlBaseImage + movie.posterPath).centerCrop().into(binding.imageView)
         }
     }
@@ -60,7 +59,6 @@ class NowPlayingAdapter : PagingDataAdapter<Movie, NowPlayingAdapter.ViewHolder>
             return oldItem.title == newItem.title
                     && oldItem.id == newItem.id
         }
-
     }
 }
 

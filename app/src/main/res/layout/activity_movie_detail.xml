@@ -94,6 +94,7 @@
                         android:padding="@dimen/dimen_16dp"
                         android:text="@string/overview"
                         android:textSize="@dimen/title_body"
+                        android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/Title_tv" />
@@ -103,7 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/release"
-                        android:textStyle="italic"
+                        android:textStyle="bold"
                         android:gravity="bottom"
                         android:paddingLeft="@dimen/dimen_16dp"
                         android:paddingRight="@dimen/dimen_16dp"

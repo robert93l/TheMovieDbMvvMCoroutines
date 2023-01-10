@@ -21,13 +21,11 @@ class MovieDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
         movie = intent.getSerializableExtra("movie") as Movie
 
-
         binding.collapsingToolbarMaterial.title = movie.title
-        Glide.with(this).load(Constants.urlBaseImage + movie.backdropPath)
+        Glide.with(this).load(Constants.urlbackpost + movie.backdropPath)
             .centerCrop().into(binding.backdropImv)
         binding.OverviewTv.text = movie.overview
         binding.RelaseDateTv.text = movie.releaseDate
-
     }
 
     //to control backrow restart activity
