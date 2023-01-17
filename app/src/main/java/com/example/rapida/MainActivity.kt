@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadDataPopular() {
 
         lifecycleScope.launch {
-            viewModel.movieslistPopular.collect {
+            viewModel.getPopularMovies().collect {
 
                 Log.d("aaa", "load: $it")
                 popularAdapter.submitData(it)

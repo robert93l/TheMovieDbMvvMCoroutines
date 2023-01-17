@@ -1,10 +1,16 @@
 package com.example.rapida.di
 
+import android.content.Context
+import androidx.room.Room
 import com.example.rapida.api.ApiService
 import com.example.rapida.helper.Constants
+import com.example.rapida.models.MoviesDao
+import com.example.rapida.models.MoviesDatabase
+import com.example.rapida.models.RemoteKeysDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -26,4 +32,19 @@ object AppModule {
             .build()
             .create(ApiService::class.java)
 
+    @Singleton
+    @Provides
+    fun provideMovieDatabase(@ApplicationContext context: Context): MoviesDatabase =
+        Room
+            .databaseBuilder(context, MoviesDatabase::class.java, "movies_database")
+            .build()
+
+    @Singleton
+    @Provides
+    fun provideMoviesDao(moviesDatabase: MoviesDatabase): MoviesDao = moviesDatabase.getMoviesDao()
+
+    @Singleton
+    @Provides
+    fun provideRemoteKeysDao(moviesDatabase: MoviesDatabase): RemoteKeysDao = moviesDatabase.getRemoteKeysDao()
 }
+
