@@ -11,10 +11,8 @@ import com.example.rapida.models.MoviesDatabase
 import com.example.rapida.paging.*
 import com.example.rapida.repository.TvShowRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 
@@ -22,16 +20,16 @@ import javax.inject.Inject
 class TvShowViewModel
 @Inject
 constructor(private val repository: TvShowRepository, private var query: String,private val moviesApiService: ApiService,
-            private val moviesDatabase: MoviesDatabase,) : ViewModel() {
+            private val moviesDatabase: MoviesDatabase) : ViewModel() {
 
 
 
         @OptIn(ExperimentalPagingApi::class)
-        fun getPopularMovies(): Flow<PagingData<Movie>> =
+        fun getPopularMovies(Typeofmovie: String): Flow<PagingData<Movie>> =
             Pager(
                  PagingConfig(
                     pageSize = 20,
-                    prefetchDistance = 5,
+                    prefetchDistance = 10,
                     initialLoadSize = 20,
                 ),
                 pagingSourceFactory = {
@@ -40,26 +38,31 @@ constructor(private val repository: TvShowRepository, private var query: String,
                 remoteMediator = MoviesRemoteMediator(
                     moviesApiService,
                     moviesDatabase,
+                    Typeofmovie
                 )
             ).flow.cachedIn(viewModelScope)
 
 
 
-    val movieslistPopular = Pager(PagingConfig(pageSize = 20)) {
-        MoviePagingSourcePopular()
-    }.flow.cachedIn(viewModelScope)
+   /*  val movieslistPopular = Pager(PagingConfig(pageSize = 20)) {
+         MoviePagingSourcePopular()
+     }.flow.cachedIn(viewModelScope)*/
 
 
     val movielistnowplaying = Pager(PagingConfig(pageSize = 20)){
-        MoviePagingSource()
+        MoviePagingSourceUpcoming("nowplayingmovies")
     }.flow.cachedIn(viewModelScope)
 
-    val movielisttopRated = Pager(PagingConfig(pageSize = 20)){
+    /*val movielisttopRated = Pager(PagingConfig(pageSize = 20)){
         MoviePagingSourceTop()
+    }.flow.cachedIn(viewModelScope)*/
+
+    val movielisttopRated = Pager(PagingConfig(pageSize = 20)){
+        MoviePagingSourceUpcoming("topratedmovies")
     }.flow.cachedIn(viewModelScope)
 
     val movielistUpcoming = Pager(PagingConfig(pageSize = 20)){
-        MoviePagingSourceUpcoming()
+        MoviePagingSourceUpcoming("upcomingmovies")
     }.flow.cachedIn(viewModelScope)
 
 

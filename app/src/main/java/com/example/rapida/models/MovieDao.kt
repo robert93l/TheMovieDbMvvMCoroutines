@@ -1,6 +1,5 @@
 package com.example.rapida.models
 
-import androidx.paging.DataSource
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
@@ -17,4 +16,6 @@ interface MoviesDao {
 
     @Query("Delete From movies")
     suspend fun clearAllMovies()
+
+
 }

@@ -10,7 +10,7 @@ import java.io.IOException
 
 private const val MOVIES_STARTING_PAGE_INDEX = 1
 
-class MoviePagingSourceUpcoming(): PagingSource<Int, Movie>() {
+class MoviePagingSourceUpcoming( private val source: String): PagingSource<Int, Movie>() {
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
@@ -22,10 +22,24 @@ class MoviePagingSourceUpcoming(): PagingSource<Int, Movie>() {
 
         return try {
             val currentPageList = params.key ?: MOVIES_STARTING_PAGE_INDEX
-            val response = ApiRetrofit.movieService.getUpcomingMovies(
+
+            val response = when (source) {
+                "popularmovies" -> ApiRetrofit.movieService.getPopularMovies(Constants.API_KEY,
+                currentPageList)
+                "upcomingmovies" -> ApiRetrofit.movieService.getUpcomingMovies(Constants.API_KEY,
+                    currentPageList)
+                "topratedmovies" -> ApiRetrofit.movieService.getTopRatedMovies(Constants.API_KEY,
+                    currentPageList)
+                "nowplayingmovies" -> ApiRetrofit.movieService.getNowPlayingMovies(Constants.API_KEY,
+                    currentPageList)
+
+                else -> throw IllegalArgumentException("Invalid source")
+            }
+         /*   val response = ApiRetrofit.movieService.getUpcomingMovies(
                 Constants.API_KEY,
                 currentPageList
-            )
+            )*/
+
             val responseList = mutableListOf<Movie>()
 
             if(response.isSuccessful){

@@ -8,7 +8,6 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-
     @GET("movie/popular")
     suspend fun getPopularMovies(
         @Query("api_key") apiKey: String = Constants.API_KEY,
@@ -33,7 +32,6 @@ interface ApiService {
         @Query("page") page: Int
     ): Response<GetMoviesResponse>
 
-    //Busqueda atendiendo
     @GET("search/movie")
     suspend fun searchMovies(
         @Query("api_key") apiKey: String = Constants.API_KEY,

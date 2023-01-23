@@ -14,10 +14,11 @@ import java.io.IOException
 
 
 @OptIn(ExperimentalPagingApi::class)
-class MoviesRemoteMediator (
+class MoviesRemoteMediator(
     private val moviesApiService: ApiService,
     private val moviesDatabase: MoviesDatabase,
-): RemoteMediator<Int, Movie>() {
+    private val source: String
+) : RemoteMediator<Int, Movie>() {
 
     override suspend fun load(
         loadType: LoadType,
@@ -31,17 +32,29 @@ class MoviesRemoteMediator (
             LoadType.PREPEND -> {
                 val remoteKeys = getRemoteKeyForFirstItem(state)
                 val prevKey = remoteKeys?.prevKey
-                prevKey ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+                prevKey
+                    ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
             }
             LoadType.APPEND -> {
                 val remoteKeys = getRemoteKeyForLastItem(state)
                 val nextKey = remoteKeys?.nextKey
-                nextKey ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+                nextKey
+                    ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
             }
         }
 
         try {
-            val apiResponse = moviesApiService.getPopularMovies(page = page)
+            /* val apiResponse = moviesApiService.getPopularMovies(page = page)
+
+             val movies = apiResponse.body()?.movies
+             val endOfPaginationReached = movies!!.isEmpty()*/
+            val apiResponse = when (source) {
+                "popularmovies" -> moviesApiService.getPopularMovies(page = page)
+                "upcomingmovies" -> moviesApiService.getUpcomingMovies(page = page)
+                "playingnow" -> moviesApiService.getNowPlayingMovies(page = page)
+                /*"toprated" -> moviesApiService.getTopRatedMovies(page = page)*/
+                else -> throw IllegalArgumentException("Invalid source")
+            }
 
             val movies = apiResponse.body()?.movies
             val endOfPaginationReached = movies!!.isEmpty()
@@ -63,9 +76,10 @@ class MoviesRemoteMediator (
                 }
 
 
-                    moviesDatabase.getRemoteKeysDao().insertAll(remoteKeys)
+                moviesDatabase.getRemoteKeysDao().insertAll(remoteKeys)
 
-                    moviesDatabase.getMoviesDao().insertAll(movies.onEachIndexed { _, movie -> movie.page = page })
+                moviesDatabase.getMoviesDao()
+                    .insertAll(movies.onEachIndexed { _, movie -> movie.page = page })
 
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
@@ -75,8 +89,6 @@ class MoviesRemoteMediator (
             return MediatorResult.Error(error)
         }
     }
-
-
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Movie>): RemoteKeys? {
         return state.anchorPosition?.let { position ->

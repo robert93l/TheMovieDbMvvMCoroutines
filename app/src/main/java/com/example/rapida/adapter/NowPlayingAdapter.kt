@@ -15,7 +15,6 @@ import com.example.rapida.helper.Constants
 import com.example.rapida.models.Movie
 
 
-
 class NowPlayingAdapter : PagingDataAdapter<Movie, NowPlayingAdapter.ViewHolder>(DiffUtilCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

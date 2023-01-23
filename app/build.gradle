@@ -88,6 +88,7 @@ dependencies {
     kapt("androidx.room:room-compiler:2.4.3")
     implementation("androidx.room:room-paging:2.4.3")
 
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
 
 

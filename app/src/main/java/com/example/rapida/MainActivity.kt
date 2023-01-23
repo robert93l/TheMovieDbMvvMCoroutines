@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+
     private lateinit var binding: ActivityMainBinding
     private val viewModel: TvShowViewModel by viewModels()
     private lateinit var popularAdapter: PopularAdapter
@@ -38,18 +39,34 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setUpRv()
-        loadDataPopular()
-        loadDataNowPlaying()
-        loadDatatopRated()
-        loadDataUpcoming()
 
         loadSearch()
+        loadDataUpcoming()
+        loadDatatopRated()
+        loadDataPopular()
+        loadDataNowPlaying()
+
+        refreshswipe()
+
+    }
+
+    private fun refreshswipe() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+
+            setUpRv()
+            loadDataUpcoming()
+            loadDatatopRated()
+            loadDataPopular()
+            loadDataNowPlaying()
+
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
     }
 
 
     private fun loadSearch() {
-        lifecycleScope.launch{
-           viewModel.searchResults.collect{
+        lifecycleScope.launch {
+            viewModel.searchResults.collect {
                 searchAdapter.submitData(it)
                 binding.searchResults.visibility = View.VISIBLE
             }
@@ -60,14 +77,14 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_search_character, menu)
         val item = menu.findItem(R.id.searchCharacterMenu)
         val searchView = item?.actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
                     viewModel.searchMovies(query)
-                     loadSearch()
+                    loadSearch()
 
                 }
-              return true
+                return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -84,7 +101,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadDataPopular() {
 
         lifecycleScope.launch {
-            viewModel.getPopularMovies().collect {
+            viewModel.getPopularMovies("popularmovies").collect {
 
                 Log.d("aaa", "load: $it")
                 popularAdapter.submitData(it)
@@ -104,10 +121,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadDatatopRated() {
-
         lifecycleScope.launch {
             viewModel.movielisttopRated.collect {
-
                 Log.d("aaa", "load: $it")
                 toprated.submitData(it)
             }
@@ -126,8 +141,8 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     private fun setUpRv() {
+
         popularAdapter = PopularAdapter()
         toprated = TopRatedAdapter()
         nowPlayingAdapter = NowPlayingAdapter()
@@ -138,7 +153,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.recyclerView.apply {
             adapter = searchAdapter
-            layoutManager =  StaggeredGridLayoutManager(3, GridLayoutManager.VERTICAL)
+            layoutManager = StaggeredGridLayoutManager(3, GridLayoutManager.VERTICAL)
 
             setHasFixedSize(true)
         }

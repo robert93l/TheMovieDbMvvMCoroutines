@@ -4,9 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.rapida.api.ApiService
 import com.example.rapida.helper.Constants
-import com.example.rapida.models.MoviesDao
-import com.example.rapida.models.MoviesDatabase
-import com.example.rapida.models.RemoteKeysDao
+import com.example.rapida.models.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,6 +37,8 @@ object AppModule {
             .databaseBuilder(context, MoviesDatabase::class.java, "movies_database")
             .build()
 
+
+
     @Singleton
     @Provides
     fun provideMoviesDao(moviesDatabase: MoviesDatabase): MoviesDao = moviesDatabase.getMoviesDao()
@@ -46,5 +46,8 @@ object AppModule {
     @Singleton
     @Provides
     fun provideRemoteKeysDao(moviesDatabase: MoviesDatabase): RemoteKeysDao = moviesDatabase.getRemoteKeysDao()
+
+    
+
 }
 
