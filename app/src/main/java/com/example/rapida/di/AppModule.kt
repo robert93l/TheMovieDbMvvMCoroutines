@@ -38,16 +38,15 @@ object AppModule {
             .build()
 
 
-
     @Singleton
     @Provides
     fun provideMoviesDao(moviesDatabase: MoviesDatabase): MoviesDao = moviesDatabase.getMoviesDao()
 
     @Singleton
     @Provides
-    fun provideRemoteKeysDao(moviesDatabase: MoviesDatabase): RemoteKeysDao = moviesDatabase.getRemoteKeysDao()
+    fun provideRemoteKeysDao(moviesDatabase: MoviesDatabase): RemoteKeysDao =
+        moviesDatabase.getRemoteKeysDao()
 
-    
 
 }
 

@@ -17,5 +17,4 @@ interface MoviesDao {
     @Query("Delete From movies")
     suspend fun clearAllMovies()
 
-
 }

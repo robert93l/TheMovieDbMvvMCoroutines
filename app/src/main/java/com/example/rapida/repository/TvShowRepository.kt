@@ -5,6 +5,7 @@ import com.example.rapida.api.ApiService
 import com.example.rapida.helper.Constants
 import javax.inject.Inject
 
+/*
 class TvShowRepository
 @Inject
 constructor(private val apiService: ApiService) {
@@ -15,4 +16,4 @@ constructor(private val apiService: ApiService) {
     suspend fun getTopRated() = apiService.getTopRatedMovies(Constants.API_KEY,1)
 
 
-}
+}*/

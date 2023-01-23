@@ -11,10 +11,4 @@ abstract class MoviesDatabase: RoomDatabase() {
     abstract fun getMoviesDao(): MoviesDao
     abstract fun getRemoteKeysDao(): RemoteKeysDao
 
-
-
-
-
-
-
 }
