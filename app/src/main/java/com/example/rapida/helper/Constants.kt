@@ -8,4 +8,6 @@ object Constants {
     const val urlBaseImage = "https://image.tmdb.org/t/p/w342"
     const val urlbackpost = "https://image.tmdb.org/t/p/w500/"
     const val BASE_URL = "https://api.themoviedb.org/3/"
+
+
 }

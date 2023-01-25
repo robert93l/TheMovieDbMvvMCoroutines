@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rapida.adapter.*
 import com.example.rapida.databinding.ActivityMainBinding
+import com.example.rapida.databinding.ProgressBarLayoutBinding
 import com.example.rapida.viewmodel.TvShowViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -24,23 +25,24 @@ class MainActivity : AppCompatActivity() {
 
 
     private lateinit var binding: ActivityMainBinding
+
     private val viewModel: TvShowViewModel by viewModels()
     private lateinit var popularAdapter: PopularAdapter
     private lateinit var toprated: TopRatedAdapter
     private lateinit var nowPlayingAdapter: NowPlayingAdapter
     private lateinit var upcomingAdapter: UpcomingAdapter
-
     private lateinit var searchAdapter: SearchAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
         setUpRv()
 
-        loadSearch()
+        /*loadSearch()*/
         loadDataUpcoming()
         loadDatatopRated()
         loadDataPopular()
@@ -59,16 +61,22 @@ class MainActivity : AppCompatActivity() {
             loadDataPopular()
             loadDataNowPlaying()
 
+            binding.searchResults.visibility = View.INVISIBLE
+
             binding.swipeRefreshLayout.isRefreshing = false
         }
     }
 
 
     private fun loadSearch() {
+        binding.searchprogress.progressBar.visibility = View.VISIBLE
+
         lifecycleScope.launch {
             viewModel.searchResults.collect {
                 searchAdapter.submitData(it)
+
                 binding.searchResults.visibility = View.VISIBLE
+                binding.searchprogress.progressBar.visibility = View.GONE
             }
         }
     }
@@ -99,7 +107,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadDataPopular() {
-
         lifecycleScope.launch {
             viewModel.getPopularMovies("popularmovies").collect {
 
