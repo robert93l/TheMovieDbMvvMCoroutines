@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-        binding.searchprogress.progressBar.visibility = View.VISIBLE
+
         setUpRv()
 
         /*loadSearch()*/
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         loadDataNowPlaying()
 
         refreshswipe()
-        binding.searchprogress.progressBar.visibility = View.GONE
+
     }
 
     private fun refreshswipe() {
