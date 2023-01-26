@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rapida.adapter.*
 import com.example.rapida.databinding.ActivityMainBinding
-import com.example.rapida.databinding.ProgressBarLayoutBinding
 import com.example.rapida.viewmodel.TvShowViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -27,11 +26,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val viewModel: TvShowViewModel by viewModels()
-    private lateinit var popularAdapter: PopularAdapter
-    private lateinit var toprated: TopRatedAdapter
-    private lateinit var nowPlayingAdapter: NowPlayingAdapter
-    private lateinit var upcomingAdapter: UpcomingAdapter
-    private lateinit var searchAdapter: SearchAdapter
+    private lateinit var popularAdapter: MovieAdapter
+    private lateinit var toprated: MovieAdapter
+    private lateinit var nowPlayingAdapter: MovieAdapter
+    private lateinit var upcomingAdapter: MovieAdapter
+    private lateinit var searchAdapter: MovieAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-
+        binding.searchprogress.progressBar.visibility = View.VISIBLE
         setUpRv()
 
         /*loadSearch()*/
@@ -49,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         loadDataNowPlaying()
 
         refreshswipe()
-
+        binding.searchprogress.progressBar.visibility = View.GONE
     }
 
     private fun refreshswipe() {
@@ -150,12 +149,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpRv() {
 
-        popularAdapter = PopularAdapter()
-        toprated = TopRatedAdapter()
-        nowPlayingAdapter = NowPlayingAdapter()
-        upcomingAdapter = UpcomingAdapter()
+        popularAdapter = MovieAdapter()
+        toprated = MovieAdapter()
+        nowPlayingAdapter = MovieAdapter()
+        upcomingAdapter = MovieAdapter()
 
-        searchAdapter = SearchAdapter()
+        searchAdapter = MovieAdapter()
 
 
         binding.recyclerView.apply {
