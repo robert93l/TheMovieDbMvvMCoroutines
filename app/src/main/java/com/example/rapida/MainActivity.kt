@@ -36,17 +36,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
         setUpRv()
-
-        /*loadSearch()*/
-        loadDataUpcoming()
-        loadDatatopRated()
-        loadDataPopular()
-        loadDataNowPlaying()
-
+        loadData()
         refreshswipe()
 
     }
@@ -55,17 +48,27 @@ class MainActivity : AppCompatActivity() {
         binding.swipeRefreshLayout.setOnRefreshListener {
 
             setUpRv()
-            loadDataUpcoming()
-            loadDatatopRated()
-            loadDataPopular()
-            loadDataNowPlaying()
+            loadData()
 
             binding.searchResults.visibility = View.INVISIBLE
-
             binding.swipeRefreshLayout.isRefreshing = false
         }
     }
 
+    private fun loadData() {
+        lifecycleScope.launch {
+            viewModel.getPopularMovies("popularmovies")
+                .collect { popularAdapter.submitData(it) }}
+        lifecycleScope.launch {
+            viewModel.movielistnowplaying
+                .collect { nowPlayingAdapter.submitData(it) }}
+        lifecycleScope.launch {
+            viewModel.movielisttopRated
+                .collect { toprated.submitData(it) }}
+        lifecycleScope.launch {
+            viewModel.movielistUpcoming
+                .collect { upcomingAdapter.submitData(it) }}
+    }
 
     private fun loadSearch() {
         binding.searchprogress.progressBar.visibility = View.VISIBLE
@@ -105,48 +108,6 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun loadDataPopular() {
-        lifecycleScope.launch {
-            viewModel.getPopularMovies("popularmovies").collect {
-
-                Log.d("aaa", "load: $it")
-                popularAdapter.submitData(it)
-            }
-        }
-    }
-
-    private fun loadDataNowPlaying() {
-
-        lifecycleScope.launch {
-            viewModel.movielistnowplaying.collect {
-
-                Log.d("aaa", "load: $it")
-                nowPlayingAdapter.submitData(it)
-            }
-        }
-    }
-
-    private fun loadDatatopRated() {
-        lifecycleScope.launch {
-            viewModel.movielisttopRated.collect {
-                Log.d("aaa", "load: $it")
-                toprated.submitData(it)
-            }
-        }
-    }
-
-    private fun loadDataUpcoming() {
-
-        lifecycleScope.launch {
-            viewModel.movielistUpcoming.collect {
-
-                Log.d("aaa", "load: $it")
-                upcomingAdapter.submitData(it)
-            }
-        }
-    }
-
-
     private fun setUpRv() {
 
         popularAdapter = MovieAdapter()
@@ -160,17 +121,15 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.apply {
             adapter = searchAdapter
             layoutManager = StaggeredGridLayoutManager(3, GridLayoutManager.VERTICAL)
-
             setHasFixedSize(true)
         }
 
         binding.rvEpisodes.apply {
-            adapter = toprated
+         adapter = toprated
             layoutManager = LinearLayoutManager(
                 this@MainActivity, LinearLayoutManager.HORIZONTAL,
                 false
             )
-
             setHasFixedSize(true)
         }
 
@@ -181,7 +140,6 @@ class MainActivity : AppCompatActivity() {
                 this@MainActivity, LinearLayoutManager.HORIZONTAL,
                 false
             )
-
             setHasFixedSize(true)
         }
 
@@ -191,7 +149,6 @@ class MainActivity : AppCompatActivity() {
                 this@MainActivity, LinearLayoutManager.HORIZONTAL,
                 false
             )
-
             setHasFixedSize(true)
         }
 
@@ -201,7 +158,6 @@ class MainActivity : AppCompatActivity() {
                 this@MainActivity, LinearLayoutManager.HORIZONTAL,
                 false
             )
-
             setHasFixedSize(true)
         }
 
@@ -211,7 +167,6 @@ class MainActivity : AppCompatActivity() {
                 this@MainActivity, LinearLayoutManager.HORIZONTAL,
                 false
             )
-
             setHasFixedSize(true)
         }
 
@@ -221,7 +176,6 @@ class MainActivity : AppCompatActivity() {
                 this@MainActivity, LinearLayoutManager.HORIZONTAL,
                 false
             )
-
             setHasFixedSize(true)
         }
 
@@ -231,7 +185,6 @@ class MainActivity : AppCompatActivity() {
                 this@MainActivity, LinearLayoutManager.HORIZONTAL,
                 false
             )
-
             setHasFixedSize(true)
         }
 
@@ -241,7 +194,6 @@ class MainActivity : AppCompatActivity() {
                 this@MainActivity, LinearLayoutManager.HORIZONTAL,
                 false
             )
-
             setHasFixedSize(true)
         }
 
@@ -251,7 +203,6 @@ class MainActivity : AppCompatActivity() {
                 this@MainActivity, LinearLayoutManager.HORIZONTAL,
                 false
             )
-
             setHasFixedSize(true)
         }
 
@@ -261,9 +212,7 @@ class MainActivity : AppCompatActivity() {
                 this@MainActivity, LinearLayoutManager.HORIZONTAL,
                 false
             )
-
             setHasFixedSize(true)
         }
-
     }
 }

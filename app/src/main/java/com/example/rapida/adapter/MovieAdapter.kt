@@ -40,6 +40,8 @@ class   MovieAdapter(): PagingDataAdapter<Movie, MovieAdapter.ViewHolder>(DiffUt
         }
     }
 
+
+
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
         private val binding = TvShowLayoutAdapterBinding.bind(view)
