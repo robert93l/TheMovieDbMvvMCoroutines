@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SalinasInterview</string>
+    <string name="app_name">THeMovieDB+search</string>
     <string name="title_movies">Movies</string>
     <string name="title_location">Location</string>
     <string name="title_storage">Storage</string>
